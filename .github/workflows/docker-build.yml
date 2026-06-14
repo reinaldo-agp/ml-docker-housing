@@ -1,0 +1,25 @@
+name: Docker Build CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t ml-housing-api .
+
+      - name: Verify container runs
+        run: |
+          docker run -d -p 80:80 --name test-container ml-housing-api
+          sleep 5
+          curl -f http://localhost:80 || exit 1
+          docker stop test-container
