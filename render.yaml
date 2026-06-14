@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: ml-housing-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
